@@ -2,7 +2,28 @@
          /* background-color: rgb(119, 207, 223);  */
         }
 #scheduleDiv{ background-color: rgb(109, 89, 167); }
-#detailedScheduleDiv{ background-color: rgb(62, 145, 120); }
+
+
+
+
+
+
+/* detailed Schedule stuff*/
+#detailedScheduleDiv{ 
+  /* background-color: rgb(62, 145, 120);  */
+}
+.my-custom-scrollbar {
+  position: relative;
+  height: 300px;
+  overflow: auto;
+  }
+.table-wrapper-scroll-y {
+display: block;
+}
+
+
+
+
 
 
 /* courses treeview stuff */
