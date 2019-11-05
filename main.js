@@ -1,11 +1,11 @@
 //for treeview collapsing
 
 (function ($) {
-let $allPanels = $('.nested').hide();
-let $elements = $('.treeview-animated-element');
+    let $allPanels = $('.nested').hide();
+    let $elements = $('.treeview-animated-element');
 
-$('.closed').click(function () {
-        
+    $('.closed').click(function () {
+            
         $this = $(this);
         $target = $this.siblings('.nested');
         $pointer = $this.children('.fa-angle-right');
@@ -15,12 +15,12 @@ $('.closed').click(function () {
 
         !$target.hasClass('active') ? $target.addClass('active').slideDown() : 
         $target.removeClass('active').slideUp();
-
-        return false;
-});
-
-$elements.click(function () {
         
+        return false;
+    });
+
+    $elements.click(function () {
+            
         $this = $(this);
         
         if ($this.hasClass('opened')) {
