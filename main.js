@@ -65,7 +65,7 @@ $("#retrieveBtn").click(function(){
         
         var subj = $("#subj_select option:selected").text();
         
-        fetch("https://courses.rice.edu/admweb/!SWKSECX.main?term=202020&subj=" + subj)
+        fetch(proxyurl + "https://courses.rice.edu/admweb/!SWKSECX.main?term=202020&subj=" + subj)
             .then((resp) => resp.text())
             .then(x => console.log(x));
         
