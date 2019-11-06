@@ -30,4 +30,37 @@
         }
 
         })
+        
+        
+    
+
+    //Fetc
+   
+                
 })(jQuery);
+
+$(document).ready(function(){ //start jquery
+    
+    
+    
+const proxyurl = "https://cors-anywhere.herokuapp.com/"; // to avoid cors access issues
+
+fetch(proxyurl + "https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020", {"credentials":"omit","headers":{"accept":"application/xml, text/xml, */*; q=0.01","accept-language":"en-US,en;q=0.9","sec-fetch-mode":"cors","sec-fetch-site":"same-origin","x-requested-with":"XMLHttpRequest"},"referrer":"https://courses.rice.edu/courses/!SWKSCAT.cat?p_action=cata","referrerPolicy":"no-referrer-when-downgrade","body":null,"method":"GET","mode":"cors"})
+.then((resp) => resp.text()) // Transform the data into text
+.then(xmlString => $.parseXML(xmlString))
+.then(function(data) {
+
+    // console.log(data);
+    
+    var $data = $(data);
+    var $course = $data.find("SUBJECT");
+    $course.each(function() {
+        var code = $(this).find('VAL').text();
+        $("#subj_select").append('<option value="1">' + code + '</option>');
+        console.log(code);
+    });
+});
+
+// fetch(proxyurl+ "https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020", {"credentials":"omit","headers":{"accept":"application/xml, text/xml, */*; q=0.01","accept-language":"en-US,en;q=0.9","sec-fetch-mode":"cors","sec-fetch-site":"same-origin","x-requested-with":"XMLHttpRequest"},"referrer":"https://courses.rice.edu/courses/!SWKSCAT.cat?p_action=cata","referrerPolicy":"no-referrer-when-downgrade","body":null,"method":"GET","mode":"cors"})
+
+}); // end jquery
