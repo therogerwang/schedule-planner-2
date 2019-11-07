@@ -1,0 +1,27 @@
+{
+  "name": "schedule-planner-2",
+  "version": "1.0.0",
+  "description": "Schedule Planner 2, developed by Roger Wang",
+  "main": "main.js",
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "electron": "^7.1.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therogerwang/schedule-planner-2.git"
+  },
+  "author": "Roger Wang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/therogerwang/schedule-planner-2/issues"
+  },
+  "homepage": "https://github.com/therogerwang/schedule-planner-2#readme"
+}

@@ -1,78 +1,58 @@
-//for treeview collapsing
+const { app, BrowserWindow, webFrame } = require('electron')
 
-(function ($) {
-    let $allPanels = $('.nested').hide();
-    let $elements = $('.treeview-animated-element');
-
-    $('.closed').click(function () {
-            
-        $this = $(this);
-        $target = $this.siblings('.nested');
-        $pointer = $this.children('.fa-angle-right');
-
-        $this.toggleClass('open')
-        $pointer.toggleClass('down');
-
-        !$target.hasClass('active') ? $target.addClass('active').slideDown() : 
-        $target.removeClass('active').slideUp();
-        
-        return false;
-    });
-
-    $elements.click(function () {
-            
-        $this = $(this);
-        
-        if ($this.hasClass('opened')) {
-                ($this.removeClass('opened'));
-        } else {
-                ($elements.removeClass('opened'), $this.addClass('opened'));
-        }
-
-        })
-        
-        
-    
-
-    //Fetc
-   
-                
-})(jQuery);
-
-$(document).ready(function(){ //start jquery
-    
-    
-    
-const proxyurl = "https://cors-anywhere.herokuapp.com/"; // to avoid cors access issues
-
-fetch(proxyurl + "https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020", {"credentials":"omit","headers":{"accept":"application/xml, text/xml, */*; q=0.01","accept-language":"en-US,en;q=0.9","sec-fetch-mode":"cors","sec-fetch-site":"same-origin","x-requested-with":"XMLHttpRequest"},"referrer":"https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020","referrerPolicy":"no-referrer-when-downgrade","body":null,"method":"GET","mode":"cors"})
-.then((resp) => resp.text()) // Transform the data into text
-.then(xmlString => $.parseXML(xmlString))
-.then(function(data) {
-
-    // console.log(data);
-    
-    var $data = $(data);
-    var $course = $data.find("SUBJECT");
-    $course.each(function() {
-        var code = $(this).find('VAL').text();
-        $("#subj_select").append('<option value="1">' + code + '</option>');
-        console.log(code);
-    });
-});
-
-$("#retrieveBtn").click(function(){
-        
-        var subj = $("#subj_select option:selected").text();
-        
-        fetch(proxyurl + "https://courses.rice.edu/admweb/!SWKSECX.main?term=202020&subj=" + subj)
-            .then((resp) => resp.text())
-            .then(x => console.log(x));
-        
-        
-      });
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let win
 
 
-// fetch(proxyurl+ "https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020", {"credentials":"omit","headers":{"accept":"application/xml, text/xml, */*; q=0.01","accept-language":"en-US,en;q=0.9","sec-fetch-mode":"cors","sec-fetch-site":"same-origin","x-requested-with":"XMLHttpRequest"},"referrer":"https://courses.rice.edu/courses/!SWKSCAT.cat?p_action=cata","referrerPolicy":"no-referrer-when-downgrade","body":null,"method":"GET","mode":"cors"})
+function createWindow () {
+  // Create the browser window.
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      zoomFactor: .9,
+      nodeIntegration: true
+    }
+  })
 
-}); // end jquery
+  // and load the index.html of the app.
+  win.loadFile('index.html')
+
+  // Open the DevTools.
+  win.webContents.openDevTools()
+
+  
+  // Emitted when the window is closed.
+  win.on('closed', () => {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    win = null
+  })
+}
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow)
+
+// Quit when all windows are closed.
+app.on('window-all-closed', () => {
+  // On macOS it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  // On macOS it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (win === null) {
+    createWindow()
+  }
+})
+
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and require them here.

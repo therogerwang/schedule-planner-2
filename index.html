@@ -110,15 +110,19 @@
           
           
         </div>
-        <button type="button" class="btn btn-primary btn-rounded" id = "retrieveBtn">Retrieve Courses</button>
+        <button type="button" class="btn btn-primary btn-sm" id = "retrieveBtn">Retrieve Courses</button>
       </div>
       
-            
+      
+      <!-- Retrieved Course Tree View -->
       <div class="treeview-animated w-20 border mx-4 my-4">
         <h6 class="pt-3 pl-3">Courses</h6>
         <hr>
-        <ul class="treeview-animated-list mb-3">
-          <li class="treeview-animated-items">
+        <ul class="treeview-animated-list mb-3" id="categories_layer">
+          
+          <!-- Add categories in here -->
+          
+          <!-- <li class="treeview-animated-items">
             <a class="closed">
               <i class="fas fa-angle-right"></i>
               <span>COMP</span>
@@ -129,17 +133,12 @@
                 <a class="closed"><i class="fas fa-angle-right"></i>
                   <span>140 - Rixner's Ties</span></a>
                 <ul class="nested">
-                  <li>
-                    <div class="treeview-animated-element"><i class="far fa-circle ic-w mr-1"></i> Section 1
-                  </li>
-                  <li>
-                    <div class="treeview-animated-element"><i class="far fa-circle ic-w mr-1"></i> Section 2
-                  </li>
+                  
                 </ul>
               </li>
               
             </ul>
-          </li>
+          </li> -->
           
           <li class="treeview-animated-items">
             <a class="closed">
@@ -239,7 +238,8 @@
   
   <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <!-- <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script> -->
   <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="js/popper.min.js"></script>
   <!-- Bootstrap core JavaScript -->
@@ -248,7 +248,7 @@
   <script type="text/javascript" src="js/mdb.min.js"></script>
   
   <!-- custom js -->
-  <script src="main.js"></script>
+  <script src="index.js"></script>
   
   
 </body>
