@@ -138,6 +138,9 @@ $("#retrieveBtn").click(function(){
                     var CRN = $(this).find("crn").text();
                     var INSTRUCTOR = $(this).find("instructor").text();
                     var DESCRIPTION = $(this).find("description").text();
+                    var CREDIT_HRS = $(this).find("credit-hours").text();
+                    var PREREQS = $(this).find("pre-requisites").text();
+                    
                     // console.log("NUMBER = " + NUMB)
                     
                     //check if subject category already exists in tree
@@ -187,7 +190,9 @@ $("#retrieveBtn").click(function(){
                             <span> `+CRN+ " - "
                             + INSTRUCTOR + `</span></a>
                             <ul class="nested"">
-                            <li>`+DESCRIPTION+`</li>
+                            <li>`+DESCRIPTION+ 
+                            "<br> Credit Hours: "+CREDIT_HRS +
+                            "<br> Prerequisites: "+PREREQS+`</li>
                             </ul>
                         </li>
                         `);
