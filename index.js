@@ -111,6 +111,9 @@ fetch("https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020"
 //Retrive Courses Button Fetch Call
 $("#retrieveBtn").click(function(){
         
+        //empty already retrieved courses
+        $("#categories_layer").empty();
+    
         var subj = $("#subj_select option:selected").text();
         
         fetch("https://courses.rice.edu/admweb/!SWKSECX.main?term=202020&subj=" + subj, {"credentials":"omit","headers":{"accept":"application/xml, text/xml, */*; q=0.01","accept-language":"en-US,en;q=0.9","sec-fetch-mode":"cors","sec-fetch-site":"same-origin","x-requested-with":"XMLHttpRequest"}})
@@ -134,6 +137,7 @@ $("#retrieveBtn").click(function(){
                     var TITLE = $(this).find("title").text();
                     var CRN = $(this).find("crn").text();
                     var INSTRUCTOR = $(this).find("instructor").text();
+                    var DESCRIPTION = $(this).find("description").text();
                     // console.log("NUMBER = " + NUMB)
                     
                     //check if subject category already exists in tree
@@ -173,16 +177,20 @@ $("#retrieveBtn").click(function(){
                         </li>
                         `);
                     }
+                
                     
-                    //add sections
+                    //add sections with description
                     $("#" + SUBJ + NUMB + "_course").append(`
                         <li>
-                            <div class="treeview-animated-element"><i class="far fa-circle ic-w mr-1"></i> `+CRN+ " - "
-                            + INSTRUCTOR + `
+                        
+                            <div class="treeview-animated-element"><a class="closed"><i class="far fa-circle ic-w mr-1"></i>
+                            <span> `+CRN+ " - "
+                            + INSTRUCTOR + `</span></a>
+                            <ul class="nested"">
+                            <li>`+DESCRIPTION+`</li>
+                            </ul>
                         </li>
                         `);
-                    
-                    
                     
                     
                     // var code = $(this).find('VAL').text();
