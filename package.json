@@ -4,6 +4,7 @@
   "description": "Schedule Planner 2, developed by Roger Wang",
   "main": "main.js",
   "dependencies": {
+    "dexie": "^2.0.4",
     "jquery": "^3.4.1",
     "node-fetch": "^2.6.0"
   },
