@@ -1,9 +1,6 @@
 
 $(document).ready(function(){ //start jquery
     
-    
-    // TODO: Do i need to delete the database each load?
-    
     //Initialize variables
     const Dexie = require('dexie');
     var db = new Dexie("courses_database");
@@ -77,38 +74,41 @@ $(document).ready(function(){ //start jquery
             //open transaction, read-write to update any old entries
             db.transaction('rw', db.courses, () => {
                 
-                $course.each(function() {
+                //refresh all courses
+                db.courses.clear().then(function() {
+                    $course.each(function() {
                     
-                    var SUBJ = $(this).find("subject").text();
-                    var NUMB = $(this).find("course-number").text();
-                    var TITLE = $(this).find("title").text();
-                    var CRN = $(this).find("crn").text();
-                    var INSTRUCTOR = $(this).find("instructor").text();
-                    var DESCRIPTION = $(this).find("description").text();
-                    var CREDIT_HRS = $(this).find("credit-hours").text();
-                    var PREREQS = $(this).find("pre-requisites").text();
-                    var DISTRIBUTION = $(this).find("distribution-group").text();
-                    
-                    
-                    
-                    var courseObj = {
-                        crn: CRN,
-                        subject : SUBJ,
-                        number : NUMB,
-                        title : TITLE,
-                        instructor : INSTRUCTOR,
-                        description : DESCRIPTION,
-                        distribution : DISTRIBUTION,
-                        prereqs : PREREQS 
-                    };
-                    
-                    
-                    db.courses.put(courseObj);
-                    
-                    
-                    
+                        var SUBJ = $(this).find("subject").text();
+                        var NUMB = $(this).find("course-number").text();
+                        var TITLE = $(this).find("title").text();
+                        var CRN = $(this).find("crn").text();
+                        var INSTRUCTOR = $(this).find("instructor").text();
+                        var DESCRIPTION = $(this).find("description").text();
+                        var CREDIT_HRS = $(this).find("credit-hours").text();
+                        var PREREQS = $(this).find("pre-requisites").text();
+                        var DISTRIBUTION = $(this).find("distribution-group").text();
+                        
+                        
+                        
+                        var courseObj = {
+                            crn: CRN,
+                            subject : SUBJ,
+                            number : NUMB,
+                            title : TITLE,
+                            instructor : INSTRUCTOR,
+                            description : DESCRIPTION,
+                            distribution : DISTRIBUTION,
+                            prereqs : PREREQS 
+                        };
+                        
+                        
+                        db.courses.put(courseObj);
+                        
+                        
+                        
+                    });
                 });
-                
+
             });
             
             
@@ -117,33 +117,18 @@ $(document).ready(function(){ //start jquery
     
     
     fetchAllCoursesAndStoreInDataBase();
+    // db.courses.clear();
     
-    // db.courses.where({subject: 'COMP'}).sortBy('number').then(function(data) {
-            
-    //     console.log(data);
+    
+    
+    // Get available subjects
+    db.courses.orderBy('subject').uniqueKeys(function(subj_codes) {
         
-    // });
-    
-    
-    
-// const proxyurl = "https://cors-anywhere.herokuapp.com/"; // to avoid cors access issues
+        subj_codes.forEach(function(code) {
+            $("#subj_select").append('<option value="1">' + code + '</option>');
+        });
+    })
 
-fetch("https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020", {"credentials":"omit","headers":{"accept":"application/xml, text/xml, */*; q=0.01","accept-language":"en-US,en;q=0.9","sec-fetch-mode":"cors","sec-fetch-site":"same-origin","x-requested-with":"XMLHttpRequest"},"referrer":"https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020","referrerPolicy":"no-referrer-when-downgrade","body":null,"method":"GET","mode":"cors"})
-.then(handleErrors)
-.then((resp) => resp.text()) // Transform the data into text
-.then(xmlString => $.parseXML(xmlString))
-.then(function(data) {
-
-    console.log(data);
-    
-    var $data = $(data);
-    var $course = $data.find("SUBJECT");
-    $course.each(function() {
-        var code = $(this).find('VAL').text();
-        $("#subj_select").append('<option value="1">' + code + '</option>');
-        // console.log(code);
-    });
-});
 
 
 //Retrive Courses Button Fetch Call
@@ -153,7 +138,7 @@ $("#retrieveBtn").click(function(){
         $("#categories_layer").empty();
     
         var subj = $("#subj_select option:selected").text();
-        var dist = "Distribution Group " + $("#dist_select option:selected").text();
+        var dist = $("#dist_select option:selected").val();
         
         
         var queryObj = {};
@@ -162,7 +147,7 @@ $("#retrieveBtn").click(function(){
             queryObj.subject = subj;
         }
         
-        if (dist != "Distribution") {
+        if (dist != "not_selected") {
             queryObj.distribution = dist;
         }
         
@@ -171,7 +156,17 @@ $("#retrieveBtn").click(function(){
             return;
         }
         
-        db.courses.where(queryObj).sortBy('subject','number').then(function(retrievedCoursesArray) {
+        db.courses.where(queryObj).toArray().then(function(retrievedCoursesArray) {
+            
+            //sort by subject first, then number
+            retrievedCoursesArray.sort(function(a, b) {
+                
+                var comparison = a.subject.localeCompare(b.subject);
+                if (comparison !== 0) {
+                    return comparison;
+                }
+                return a.number.localeCompare(b.number);
+            });
             
             //load each course into html tree nav
             retrievedCoursesArray.forEach(courseObj => {
@@ -261,6 +256,5 @@ $("#retrieveBtn").click(function(){
       });
 
 
-// fetch(proxyurl+ "https://courses.rice.edu/courses/!SWKSCAT.info?action=SUBJECTS&year=2020", {"credentials":"omit","headers":{"accept":"application/xml, text/xml, */*; q=0.01","accept-language":"en-US,en;q=0.9","sec-fetch-mode":"cors","sec-fetch-site":"same-origin","x-requested-with":"XMLHttpRequest"},"referrer":"https://courses.rice.edu/courses/!SWKSCAT.cat?p_action=cata","referrerPolicy":"no-referrer-when-downgrade","body":null,"method":"GET","mode":"cors"})
 
 }); // end jquery
