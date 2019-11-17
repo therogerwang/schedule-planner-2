@@ -1,21 +1,27 @@
 
+//Initialize variables
+const Dexie = require('dexie');
+var db = new Dexie("courses_database");
+db.version(1).stores({
+    courses: 'crn,subject,distribution',
+    schedule: 'crn'
+});
+const TERM = 202020;
+
+
+
+
 $(document).ready(function(){ //start jquery
     
-    //Initialize variables
-    const Dexie = require('dexie');
-    var db = new Dexie("courses_database");
-    db.version(1).stores({
-        courses: 'crn,subject,distribution'
-    });
-    const TERM = 202020;
+    
     
     
     
     
     //get storage location               TODO: Remove this
-    const remote = require('electron').remote;
-    const app = remote.app;
-    console.log(app.getPath('userData'));
+    // const remote = require('electron').remote;
+    // const app = remote.app;
+    // console.log(app.getPath('userData'));
     
     //Error handling
     function handleErrors(response) {
@@ -87,7 +93,9 @@ $(document).ready(function(){ //start jquery
                         var CREDIT_HRS = $(this).find("credit-hours").text();
                         var PREREQS = $(this).find("pre-requisites").text();
                         var DISTRIBUTION = $(this).find("distribution-group").text();
-                        
+                        var START_TIMES = $(this).find("start-time").text();
+                        var END_TIMES = $(this).find("end-time").text();
+                        var MEET_DAYS = $(this).find("meeting-days").text();
                         
                         
                         var courseObj = {
@@ -98,7 +106,11 @@ $(document).ready(function(){ //start jquery
                             instructor : INSTRUCTOR,
                             description : DESCRIPTION,
                             distribution : DISTRIBUTION,
-                            prereqs : PREREQS 
+                            prereqs : PREREQS,
+                            credit_hrs: CREDIT_HRS,
+                            start_times: START_TIMES,
+                            end_times : END_TIMES,
+                            meet_days : MEET_DAYS
                         };
                         
                         
@@ -130,6 +142,11 @@ $(document).ready(function(){ //start jquery
     })
 
 
+    function test() {
+        console.log("CLicked!!!");
+    }
+    
+    
 
 //Retrive Courses Button Fetch Call
 $("#retrieveBtn").click(function(){
@@ -181,7 +198,7 @@ $("#retrieveBtn").click(function(){
                 var CRN = courseObj.crn;
                 var INSTRUCTOR = courseObj.instructor;
                 var DESCRIPTION = courseObj.description;
-                var CREDIT_HRS = "[TODO: add this]";
+                var CREDIT_HRS = courseObj.credit_hrs;
                 var PREREQS = courseObj.prereqs;
                 
                 // console.log("NUMBER = " + NUMB)
@@ -229,18 +246,26 @@ $("#retrieveBtn").click(function(){
                 $("#" + SUBJ + NUMB + "_course").append(`
                     <li>
                     
-                        <div class="treeview-animated-element"><a class="closed"><i class="far fa-circle ic-w mr-1"></i>
+                        <a class="closed"><i class="far fa-circle ic-w mr-1"></i>
                         <span> `+CRN+ " - "
-                        + INSTRUCTOR + `</span></a>
+                        + INSTRUCTOR + `</span> </a>
                         <ul class="nested"">
                         <li>`+DESCRIPTION+ 
                         "<br> Credit Hours: "+CREDIT_HRS +
-                        "<br> Prerequisites: "+PREREQS+`</li>
+                        "<br> Prerequisites: "+PREREQS+
+                        "<br> <button type='button' val="+CRN+" id='"+CRN+"_addcourse' class='btn btn-primary btn-sm'> Add </button>" +
+                        `</li>
                         </ul>
                     </li>
                     `);
                 
                 
+                //add click event to the Add Button
+                $("#"+CRN +"_addcourse").click(function() {
+                    
+                    console.log(courseObj);
+                });
+                    
                 // var code = $(this).find('VAL').text();
                 // $("#subj_select").append('<option value="1">' + code + '</option>');
                 // console.log(code);
@@ -250,6 +275,8 @@ $("#retrieveBtn").click(function(){
             //add animation to newly added html elements
             tree_collapse();
             
+            
+            
         });
         
         
@@ -258,3 +285,104 @@ $("#retrieveBtn").click(function(){
 
 
 }); // end jquery
+
+
+//Full Calendar stuff
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'timeGrid', 'list', 'interaction' ],
+      header: {
+        left: '',
+        center: 'title',
+        right: 'timeGridWeek,listWeek'
+      },
+      aspectRatio: 2.4,
+      defaultDate: '2019-08-12',
+      defaultView: 'timeGridWeek',
+      allDaySlot: false,
+      columnHeaderText: function(date) {
+        switch(date.getDay()) {
+            case 0:
+                return "Sunday";
+            case 1:
+                return "Monday";
+            case 2:
+                return"Tuesday";
+            case 3:
+                return "Wednesday";
+            case 4:
+                return "Thursday";
+            case 5:
+                return "Friday";
+            case 6:
+                return "Saturday";
+        }
+      },
+      minTime: "08:00:00",
+      maxTime: "20:00:00",
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+      events: [
+        {
+          title: 'All Day Event',
+          start: '2019-08-01',
+        },
+        {
+          title: 'Long Event',
+          start: '2019-08-07',
+          end: '2019-08-10'
+        },
+        {
+          groupId: 999,
+          title: 'Repeating Event',
+          start: '2019-08-09T16:00:00'
+        },
+        {
+          groupId: 999,
+          title: 'Repeating Event',
+          start: '2019-08-16T16:00:00'
+        },
+        {
+          title: 'Conference',
+          start: '2019-08-11',
+          end: '2019-08-13'
+        },
+        {
+          title: 'Meeting',
+          start: '2019-08-12T10:30:00',
+          end: '2019-08-12T12:30:00'
+        },
+        {
+          title: 'Lunch',
+          start: '2019-08-12T12:00:00'
+        },
+        {
+          title: 'Meeting',
+          start: '2019-08-12T14:30:00'
+        },
+        {
+          title: 'Happy Hour',
+          start: '2019-08-12T17:30:00'
+        },
+        {
+          title: 'Dinner',
+          start: '2019-08-12T20:00:00'
+        },
+        {
+          title: 'Birthday Party',
+          start: '2019-08-13T07:00:00'
+        },
+        {
+          title: 'Click for Google',
+          url: 'http://google.com/',
+          start: '2019-08-28'
+        }
+      ]
+    });
+
+    calendar.render();
+  });

@@ -15,6 +15,18 @@
   <!-- Your custom styles (optional) -->
   <link href="css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="main.css">
+  
+  
+  <!-- FullCalendar -->
+  <link href='fullcalendar/packages/core/main.css' rel='stylesheet' />
+  <link href='fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+  <link href='fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+  <link href='fullcalendar/packages/list/main.css' rel='stylesheet' />
+  <script src='fullcalendar/packages/core/main.js'></script>
+  <script src='fullcalendar/packages/interaction/main.js'></script>
+  <script src='fullcalendar/packages/daygrid/main.js'></script>
+  <script src='fullcalendar/packages/timegrid/main.js'></script>
+  <script src='fullcalendar/packages/list/main.js'></script>
 </head>
 
 <body>
@@ -88,8 +100,8 @@
     <!-- start col md-12  -->
     
     
-      Schedule Here
-      
+      Calendar Schedule Here
+      <div id='calendar'></div>
       
       <!-- end col md-12 -->
     </div>
@@ -198,18 +210,24 @@
         <table class="table table-bordered table-striped mb-0">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Subject Code</th>
               <th scope="col">CRN</th>
+              <th scope="col">Subject Code</th>
               <th scope="col">Title</th>
+              <th scope="col">Instructor</th>
+              <th scope="col">Credit Hrs.</th>
+              <th scope="col">Meeting Times</th>
+              <th scope="col">Prereqs</th>
+              <th scope="col">Enrollment</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <th scope="row">20566</th>
+              <td>FILM 284</td>
+              <td>Nonfiction Film</td>
+              <td>Dove</td>
+              <td>4</td>
             </tr>
             <tr>
               <th scope="row">3</th>
