@@ -8,7 +8,7 @@ db.version(1).stores({
 });
 const TERM = 202020;
 
-
+// db.delete();
 
 
 $(document).ready(function(){ //start jquery
@@ -131,6 +131,28 @@ $(document).ready(function(){ //start jquery
     fetchAllCoursesAndStoreInDataBase();
     // db.courses.clear();
     
+    // db.schedule.put()
+    
+    //Load/Fill in detailed schedule              
+    //  TODO: make schedule only posses CRN objects and have it reference courses database.
+    // This Way, the course enrollment actually gets updated
+    db.schedule.each(function(courseObj) {
+        
+        console.log(courseObj);
+        $('#detailed_tablebody').append(`
+            <tr>
+            <th scope="row">` + courseObj.crn + `</th>
+            <td>`+ courseObj.subject + " " + courseObj.number+`</td>
+            <td>` + courseObj.title + `</td>
+            <td>` + courseObj.instructor + `</td>
+            <td>` + courseObj.credit_hrs + `</td>
+            <td>` + "TODO: meeting times" + `</td>
+            <td>` + courseObj.prereqs + `</td>
+            <td>` + "TODO: enrollment" + `</td>
+            <td>` + "TODO: remove/show/hide" + `</td>
+            </tr>
+        `);
+    });
     
     
     // Get available subjects
@@ -142,9 +164,6 @@ $(document).ready(function(){ //start jquery
     })
 
 
-    function test() {
-        console.log("CLicked!!!");
-    }
     
     
 
@@ -263,7 +282,7 @@ $("#retrieveBtn").click(function(){
                 //add click event to the Add Button
                 $("#"+CRN +"_addcourse").click(function() {
                     
-                    console.log(courseObj);
+                    db.schedule.put(courseObj);
                 });
                     
                 // var code = $(this).find('VAL').text();
@@ -288,7 +307,6 @@ $("#retrieveBtn").click(function(){
 
 
 //Full Calendar stuff
-
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
