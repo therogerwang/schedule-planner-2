@@ -1,5 +1,3 @@
-# schedule-planner-2
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -19,7 +17,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-In October of 2019, Rice decided to retire their beloved schedule planning website. This is where my personal project: "Schedule Planner 2" was born!
+In October of 2019, Rice decided to retire their beloved schedule planning website. This is where my personal project: "Schedule Planner 2" aka this was born!
 This electron app contains much of the full functionality of the original website (Updated class info retrieval, ability to display scheduled views and overlapping classes,
 no limits on class additions, and hierarchical course view with custom sorting) all with additional information displays such as class capacity status and a modern and intuitive UI!
 
